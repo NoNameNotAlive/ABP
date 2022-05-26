@@ -64,18 +64,6 @@ namespace ABP
 
                     }
                 }
-
-                if (GetElementName(linea).Equals("FullName"))
-                {
-
-                    llista2.Add(GetElementData(linea));
-                    while (!GetElementName(linea).Equals("/Host"))
-                        {
-
-                            linea = sr.ReadLine();
-
-                        }
-                }
                 
                 linea = sr.ReadLine();
 
