@@ -1,0 +1,10 @@
+D:\S1AM\TREBALL ABF\ABP\bin\Debug\ABP.exe.config
+D:\S1AM\TREBALL ABF\ABP\bin\Debug\ABP.exe
+D:\S1AM\TREBALL ABF\ABP\bin\Debug\ABP.pdb
+D:\S1AM\TREBALL ABF\ABP\obj\Debug\ABP.csproj.AssemblyReference.cache
+D:\S1AM\TREBALL ABF\ABP\obj\Debug\ABP.Form1.resources
+D:\S1AM\TREBALL ABF\ABP\obj\Debug\ABP.Properties.Resources.resources
+D:\S1AM\TREBALL ABF\ABP\obj\Debug\ABP.csproj.GenerateResource.cache
+D:\S1AM\TREBALL ABF\ABP\obj\Debug\ABP.csproj.CoreCompileInputs.cache
+D:\S1AM\TREBALL ABF\ABP\obj\Debug\ABP.exe
+D:\S1AM\TREBALL ABF\ABP\obj\Debug\ABP.pdb
