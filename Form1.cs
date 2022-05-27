@@ -14,7 +14,11 @@ namespace ABP
 {
     public partial class Form1 : Form
     {
-
+        List<string> llista1 = new List<string>();
+        List<string> llista2 = new List<string>();
+        List<string> llista3 = new List<string>();
+        List<string> llista4 = new List<string>();
+        List<string> llista5 = new List<string>();
         public Form1()
         {
             InitializeComponent();
@@ -61,7 +65,6 @@ namespace ABP
             pare = linea;
             linea = sr.ReadLine();
 
-            List<string> llista1 = new List<string>();
             while (linea != null)
             {
                 if (CloseChild(linea).Equals(GetElementName(pare)))
@@ -77,8 +80,11 @@ namespace ABP
                         linea = sr.ReadLine();
 
                     }
-
-                    llista1.Add(closelinea);
+                    if (llista1.IndexOf(closelinea) == -1)
+                    {
+                        llista1.Add(closelinea);
+                    }
+                    
 
                     linea = sr.ReadLine();
                 }
@@ -126,7 +132,7 @@ namespace ABP
 
             string linea;
             linea = sr.ReadLine();
-            List<string> llista2 = new List<string>();
+            llista3 = new List<string>();
             while (linea != null)
             {
                 while (!GetElementName(linea).Equals("Refugees"))
@@ -139,7 +145,7 @@ namespace ABP
                 {
                     if (GetElementName(linea).Equals("FullName"))
                     {
-                        llista2.Add(GetElementData(linea));
+                        llista3.Add(GetElementData(linea));
                         while (!(GetElementName(linea).Equals("/Refugee")) && linea != null)
                         {
                             linea = sr.ReadLine();
@@ -154,7 +160,7 @@ namespace ABP
             }
             sr.Close();
             fs.Close();
-            foreach (Object item in llista2)
+            foreach (Object item in llista3)
             {
                 comboBox2.Items.Add(item);
             }
@@ -166,7 +172,7 @@ namespace ABP
 
             string linea;
             linea = sr.ReadLine();
-            List<string> llista2 = new List<string>();
+            llista2 = new List<string>();
             while (linea != null)
             {
                 while (!GetElementName(linea).Equals("Hosts"))
@@ -209,7 +215,7 @@ namespace ABP
 
             string linea;
             linea = sr.ReadLine();
-            List<string> llista2 = new List<string>();
+            llista4 = new List<string>();
             while (linea != null)
             {
                 while (!GetElementName(linea).Equals("Foods"))
@@ -222,7 +228,7 @@ namespace ABP
                 {
                     if (GetElementName(linea).Equals("DescFood"))
                     {
-                        llista2.Add(GetElementData(linea));
+                        llista4.Add(GetElementData(linea));
 
                     }
                     linea = sr.ReadLine();
@@ -235,7 +241,7 @@ namespace ABP
             }
             sr.Close();
             fs.Close();
-            foreach (Object item in llista2)
+            foreach (Object item in llista4)
             {
                 comboBox2.Items.Add(item);
             }
@@ -249,7 +255,7 @@ namespace ABP
 
             string linea;
             linea = sr.ReadLine();
-            List<string> llista2 = new List<string>();
+            llista5 = new List<string>();
             while (linea != null)
             {
                 while (!GetElementName(linea).Equals("FoodsDelivered"))
@@ -262,7 +268,7 @@ namespace ABP
                 {
                     if (GetElementName(linea).Equals("DeliveryNote"))
                     {
-                        llista2.Add(GetElementData(linea));
+                        llista5.Add(GetElementData(linea));
 
                     }
                     linea = sr.ReadLine();
@@ -275,7 +281,7 @@ namespace ABP
             }
             sr.Close();
             fs.Close();
-            foreach (Object item in llista2)
+            foreach (Object item in llista5)
             {
                 comboBox2.Items.Add(item);
             }
@@ -288,17 +294,16 @@ namespace ABP
             {
                 string[] split = linea.Split('<', '>');
 
-                elementname = split[1];
+                elementname = split[1].Trim();
             }
             return elementname;
         }
         private string GetElementData(string linea)
         {
             string data= "";
-
             string[] split = linea.Split('<', '>');
 
-            data = split[2];
+            data = split[2].Trim();
             return data;
         }
 
