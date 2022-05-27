@@ -40,29 +40,50 @@ namespace ABP
             }
         }
 
+        private string CloseChild(string linea)
+        {
+            string elementname = "";
+            if (linea != null)
+            {
+                string[] split = linea.Split('/', '>');
+
+                elementname = split[1];
+            }
+            return elementname;
+        }
         private void ReadChilds()
         {
             FileStream fs = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read);
             StreamReader sr = new StreamReader(textBox1.Text);
 
-            string linea;
+            string linea, closelinea, pare;
             linea = sr.ReadLine();
+            pare = linea;
+            linea = sr.ReadLine();
+
             List<string> llista1 = new List<string>();
             while (linea != null)
             {
-                
-                if (GetElementName(linea).Equals("Hosts") || GetElementName(linea).Equals("Foods") || GetElementName(linea).Equals("Refugees") || GetElementName(linea).Equals("FoodsDelivered"))
+                if (CloseChild(linea).Equals(GetElementName(pare)))
                 {
-                    if (llista1.IndexOf(GetElementName(linea)) == -1)
+                    linea = null;
+                }
+                else
+                {
+                    closelinea = GetElementName(linea);
+                    while (linea != null && (!CloseChild(linea).Equals(closelinea)) && (!CloseChild(linea).Equals(GetElementName(pare))))
                     {
 
-                        llista1.Add(GetElementName(linea));
+                        linea = sr.ReadLine();
 
                     }
-                }         
-         
 
-                linea = sr.ReadLine();
+                    llista1.Add(closelinea);
+
+                    linea = sr.ReadLine();
+                }
+
+
 
             }
 
@@ -287,11 +308,82 @@ namespace ABP
             {
                 MessageBox.Show("Selecione las listas porfavor");
             }
+            //Search();
             
         }
-        private void search()
+        private void Search()
         {
+            FileStream fs = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(textBox1.Text);
 
+            string linea,texto = "";
+            linea = sr.ReadLine();
+            List<string> text = new List<string>();
+
+            while (!GetElementName(linea).Equals("FoodsDelivered"))
+            {
+
+               linea = sr.ReadLine();
+
+            }
+            while (!GetElementName(linea).Equals("/FoodsDelivered"))
+            {
+
+                if (comboBox1.SelectedItem.ToString().Equals("Hosts"))
+                {
+                        while (!GetElementName(linea).Equals("/FoodDelivered") || linea != null)
+                        {
+
+                        
+                            if (GetElementName(linea).Equals("DeliveryNote"))
+                            {
+
+                                text.Add("DELIVERY NOTE: " + GetElementData(linea));
+
+                            }
+                            if (GetElementName(linea).Equals("DeliveryDate"))
+                            {
+
+                                text.Add("DELIVERY DATE: " + GetElementData(linea));
+
+                            }
+                            if (GetElementName(linea).Equals("TotalPrice"))
+                            {
+
+                                text.Add("TOTAL COST: " + GetElementData(linea));
+
+                            }
+                            if (GetElementName(linea).Equals("HostFullName"))
+                            {
+                                if (!GetElementData(linea).Equals(comboBox2.SelectedItem.ToString()))
+                                {
+
+                                    text.Clear();
+                                    while (!GetElementName(linea).Equals("/FoodDelivered") || linea != null)
+                                    {
+                                        linea = sr.ReadLine();
+
+                                    }
+
+                                }
+                            }
+
+                            linea = sr.ReadLine();
+                        }
+
+                }
+
+                linea = sr.ReadLine();
+                    
+            }
+
+            foreach (Object item in text)
+            {
+                texto = texto + "\n" + item;
+            }
+            richTextBox1.Text = texto;
+            sr.Close();
+            fs.Close();
         }
 
         private void Form1_Load(object sender, EventArgs e)
