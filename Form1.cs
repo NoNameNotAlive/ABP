@@ -307,25 +307,26 @@ namespace ABP
             if (comboBox1.SelectedItem.ToString().Equals("Hosts"))
             {
 
-                SearchHost();
+                richTextBox1.Text =  SearchHost();
 
             }
             if (comboBox1.SelectedItem.ToString().Equals("Foods"))
             {
 
-                SearchFood();
+                richTextBox1.Text = SearchFood();
 
             }
 
         }
-        private void SearchFood()
+        private string SearchFoodsDelivered()
         {
-            FileStream fs = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read);
             StreamReader sr = new StreamReader(textBox1.Text);
+
 
             string linea, texto = "";
             Boolean exists;
             exists = false;
+
             linea = sr.ReadLine();
             List<string> text = new List<string>();
 
@@ -335,73 +336,134 @@ namespace ABP
                 linea = sr.ReadLine();
 
             }
-            while (!GetElementName(linea).Equals("/FoodsDelivered") && linea != null)
+            while (!GetElementName(linea).Equals("/FoodDelivered") && linea != null)
             {
-
-                if (comboBox1.SelectedItem.ToString().Equals("Foods"))
+                if (GetElementName(linea).Equals("DeliveryNote"))
                 {
-                    while (!GetElementName(linea).Equals("/FoodDelivered") && linea != null)
+
+
+                    text.Add("DELIVERY NOTE: " + GetElementData(linea));
+                    if (GetElementData(linea).Equals(comboBox2.SelectedItem.ToString()))
                     {
-
-
-                        if (GetElementName(linea).Equals("DeliveryNote"))
+                        exists = true;
+                    }
+                    else
+                    {
+                        while (!CloseChild(linea).Equals("FoodDelivered") && linea != null)
                         {
-
-                            text.Add("DELIVERY NOTE: " + GetElementData(linea));
-
-                        }
-                        if (GetElementName(linea).Equals("DeliveryDate"))
-                        {
-
-                            text.Add("DELIVERY DATE: " + GetElementData(linea));
-
-                        }
-                        if (GetElementName(linea).Equals("TotalPrice"))
-                        {
-
-                            text.Add("TOTAL COST: " + GetElementData(linea));
-
-
-                        }
-                        if (GetElementName(linea).Equals("Items"))
-                        {
-                            while (!CloseChild(linea).Equals("Items") && linea != null)
-                            {
-                                if (GetElementData(linea).Equals(comboBox2.SelectedItem.ToString()))
-                                {
-
-                                    texto = texto + "\n" + "-----------------------------------------------------";
-                                    foreach (Object item in text)
-                                    {
-                                        texto = texto + "\n" + item;
-
-                                    }
-                                    texto = texto + "\n" + "-----------------------------------------------------";
-
-                                }
-                                linea = sr.ReadLine();
-                            }
+                            linea = sr.ReadLine();
                             text.Clear();
-                            
-                            
-                        }
 
-                        linea = sr.ReadLine();
+                        }
+                    }
+
+                }
+                if (GetElementName(linea).Equals("DeliveryDate"))
+                {
+
+                    text.Add("DELIVERY DATE: " + GetElementData(linea));
+
+                }
+                if (GetElementName(linea).Equals("TotalPrice"))
+                {
+
+                    text.Add("TOTAL COST: " + GetElementData(linea));
+
+                    if (exists == true)
+                    {
+                        texto = texto + "\n" + "-----------------------------------------------------";
+                        foreach (Object item in text)
+                        {
+                            texto = texto + "\n" + item;
+
+                        }
+                        texto = texto + "\n" + "-----------------------------------------------------";
 
                     }
+
+
+                }
+
+                linea = sr.ReadLine();
+            }
+
+
+            return texto;
+
+            sr.Close();
+        }
+        private string SearchFood()
+        {
+            StreamReader sr = new StreamReader(textBox1.Text);
+            
+
+                string linea, texto = "";
+
+            linea = sr.ReadLine();
+            List<string> text = new List<string>();
+
+            while (!GetElementName(linea).Equals("FoodsDelivered"))
+            {
+
+                linea = sr.ReadLine();
+
+            }
+            while (!GetElementName(linea).Equals("/FoodDelivered") && linea != null)
+            {
+
+                if (GetElementName(linea).Equals("DeliveryNote"))
+                {
+
+                    text.Add("DELIVERY NOTE: " + GetElementData(linea));
+
+                }
+                if (GetElementName(linea).Equals("DeliveryDate"))
+                {
+
+                    text.Add("DELIVERY DATE: " + GetElementData(linea));
+
+                }
+                if (GetElementName(linea).Equals("TotalPrice"))
+                {
+
+                    text.Add("TOTAL COST: " + GetElementData(linea));
+
+
+                }
+                if (GetElementName(linea).Equals("Items"))
+                {
+                    while (!CloseChild(linea).Equals("Items") && linea != null)
+                    {
+                        if (GetElementData(linea).Equals(comboBox2.SelectedItem.ToString()))
+                        {
+
+                            texto = texto + "\n" + "-----------------------------------------------------";
+                            foreach (Object item in text)
+                            {
+                                texto = texto + "\n" + item;
+
+                            }
+                            texto = texto + "\n" + "-----------------------------------------------------";
+
+                        }
+                        linea = sr.ReadLine();
+                    }
+                    text.Clear();
+
 
                 }
 
                 linea = sr.ReadLine();
 
             }
-            richTextBox1.Text = texto;
+            
+            
+            return texto;
+            
             sr.Close();
-            fs.Close();
         }
-        private void SearchHost()
+        private string SearchHost()
         {
-            FileStream fs = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read);
             StreamReader sr = new StreamReader(textBox1.Text);
 
             string linea, texto = "";
@@ -419,77 +481,94 @@ namespace ABP
             while (!GetElementName(linea).Equals("/FoodsDelivered") && linea != null)
             {
 
-                if (comboBox1.SelectedItem.ToString().Equals("Hosts"))
+                if (GetElementName(linea).Equals("DeliveryNote"))
                 {
-                    while (!GetElementName(linea).Equals("/FoodDelivered") && linea != null)
+
+                    text.Add("DELIVERY NOTE: " + GetElementData(linea));
+
+                }
+                if (GetElementName(linea).Equals("DeliveryDate"))
+                {
+
+                    text.Add("DELIVERY DATE: " + GetElementData(linea));
+
+                }
+                if (GetElementName(linea).Equals("TotalPrice"))
+                {
+
+                    text.Add("TOTAL COST: " + GetElementData(linea));
+
+                    if (exists == true)
                     {
-
-
-                        if (GetElementName(linea).Equals("DeliveryNote"))
+                        texto = texto + "\n" + "-----------------------------------------------------";
+                        foreach (Object item in text)
                         {
-
-                            text.Add("DELIVERY NOTE: " + GetElementData(linea));
+                            texto = texto + "\n" + item;
 
                         }
-                        if (GetElementName(linea).Equals("DeliveryDate"))
-                        {
-
-                            text.Add("DELIVERY DATE: " + GetElementData(linea));
-
-                        }
-                        if (GetElementName(linea).Equals("TotalPrice"))
-                        {
-
-                            text.Add("TOTAL COST: " + GetElementData(linea));
-
-                            if(exists == true)
-                            {
-                                texto = texto + "\n" + "-----------------------------------------------------";
-                                foreach (Object item in text)
-                                {
-                                    texto = texto + "\n" + item;
-
-                                }
-                                texto = texto + "\n" + "-----------------------------------------------------";
-
-                            }
-                            
-
-                        }
-                        if (GetElementName(linea).Equals("HostFullName"))
-                        {
-                            if (GetElementData(linea).Equals(comboBox2.SelectedItem.ToString()))
-                            {
-                                exists = true;
-                            }
-                            else
-                            {
-                                while (!CloseChild(linea).Equals("FoodDelivered") && linea != null)
-                                {
-                                    linea = sr.ReadLine();
-                                    text.Clear();
-                                    
-                                }
-                            }
-                        }
-
-                        linea = sr.ReadLine();
+                        texto = texto + "\n" + "-----------------------------------------------------";
 
                     }
 
+
+                }
+                if (GetElementName(linea).Equals("HostFullName"))
+                {
+                    if (GetElementData(linea).Equals(comboBox2.SelectedItem.ToString()))
+                    {
+                        exists = true;
+                    }
+                    else
+                    {
+                        while (!CloseChild(linea).Equals("FoodDelivered") && linea != null)
+                        {
+                            linea = sr.ReadLine();
+                            text.Clear();
+
+                        }
+                    }
                 }
 
                 linea = sr.ReadLine();
 
             }
-            richTextBox1.Text = texto;
+            return texto;
+
             sr.Close();
-            fs.Close();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string rutaCompleta = @"D:\S1AM\TREBALL ABF\ABP\dades.txt";
+            using (StreamWriter sw = new StreamWriter(rutaCompleta))
+            {
+
+                if (comboBox1.SelectedItem.ToString().Equals("Hosts"))
+                {
+
+                    sw.WriteLine(SearchHost());
+
+                }
+                if (comboBox1.SelectedItem.ToString().Equals("Foods"))
+                {
+
+                    sw.WriteLine(SearchFood());
+
+                }
+                if (comboBox1.SelectedItem.ToString().Equals("FoodsDelivered"))
+                {
+
+                    sw.WriteLine(SearchFoodsDelivered());
+
+                }
+
+            }
+            
         }
     }
 }

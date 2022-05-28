@@ -40,6 +40,7 @@ namespace ABP
             this.label2 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // FindArxiu
@@ -137,6 +138,7 @@ namespace ABP
             this.button4.TabIndex = 9;
             this.button4.Text = "Append";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // richTextBox1
             // 
@@ -150,6 +152,10 @@ namespace ABP
             this.richTextBox1.Size = new System.Drawing.Size(532, 263);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // Form1
             // 
@@ -186,6 +192,7 @@ namespace ABP
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 
