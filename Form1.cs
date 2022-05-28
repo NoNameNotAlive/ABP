@@ -35,7 +35,7 @@ namespace ABP
             ReadChilds();
         }
 
-        private string CloseChild(string linea)
+        private string CloseElement(string linea)
         {
             string elementname = "";
             if (linea != null)
@@ -58,14 +58,14 @@ namespace ABP
 
             while (linea != null)
             {
-                if (CloseChild(linea).Equals(GetElementName(pare)))
+                if (CloseElement(linea).Equals(GetElementName(pare)))
                 {
                     linea = null;
                 }
                 else
                 {
                     closelinea = GetElementName(linea);
-                    while (linea != null && (!CloseChild(linea).Equals(closelinea)) && (!CloseChild(linea).Equals(GetElementName(pare))))
+                    while (linea != null && (!CloseElement(linea).Equals(closelinea)) && (!CloseElement(linea).Equals(GetElementName(pare))))
                     {
 
                         linea = sr.ReadLine();
@@ -369,7 +369,7 @@ namespace ABP
                     }
                     else
                     {
-                        while (!CloseChild(linea).Equals("FoodDelivered") && linea != null)
+                        while (!CloseElement(linea).Equals("FoodDelivered") && linea != null)
                         {
                             linea = sr.ReadLine();
                             text.Clear();
@@ -451,7 +451,7 @@ namespace ABP
                 }
                 if (GetElementName(linea).Equals("Items"))
                 {
-                    while (!CloseChild(linea).Equals("Items") && linea != null)
+                    while (!CloseElement(linea).Equals("Items") && linea != null)
                     {
                         if (GetElementData(linea).Equals(comboBox2.SelectedItem.ToString()))
                         {
@@ -538,7 +538,7 @@ namespace ABP
                     }
                     else
                     {
-                        while (!CloseChild(linea).Equals("FoodDelivered") && linea != null)
+                        while (!CloseElement(linea).Equals("FoodDelivered") && linea != null)
                         {
                             linea = sr.ReadLine();
                             text.Clear();
@@ -570,13 +570,13 @@ namespace ABP
                 linea = sr.ReadLine();
 
             }
-            while ((!CloseChild(linea).Equals("Hosts") || existsrefugee == false) && linea != null)
+            while ((!CloseElement(linea).Equals("Hosts") || existsrefugee == false) && linea != null)
             {
                 if(existsrefugee == false)
                 {
                     Hostrefugee = null;
                 }
-                while (!CloseChild(linea).Equals("Host") && linea != null)
+                while (!CloseElement(linea).Equals("Host") && linea != null)
                 {
                     if (GetElementName(linea).Equals("FullName") && (Hostrefugee == null))
                     {
@@ -639,7 +639,7 @@ namespace ABP
                     }
                     else
                     {
-                        while (!CloseChild(linea).Equals("FoodDelivered") && linea != null)
+                        while (!CloseElement(linea).Equals("FoodDelivered") && linea != null)
                         {
                             linea = sr.ReadLine();
                             text.Clear();
@@ -655,14 +655,9 @@ namespace ABP
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void button4_Click(object sender, EventArgs e)
         {
-            string rutaCompleta = @"D:\S1AM\TREBALL ABF\ABP\dades.txt";
+            string rutaCompleta = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
             using (StreamWriter sw = File.AppendText(rutaCompleta))
             {
 
