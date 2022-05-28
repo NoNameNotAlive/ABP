@@ -29,7 +29,7 @@ namespace ABP
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.FindArxiu = new System.Windows.Forms.Button();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -42,16 +42,16 @@ namespace ABP
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
-            // button1
+            // FindArxiu
             // 
-            this.button1.AutoSize = true;
-            this.button1.Location = new System.Drawing.Point(497, 65);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(71, 27);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.FindArxiu.AutoSize = true;
+            this.FindArxiu.Location = new System.Drawing.Point(497, 65);
+            this.FindArxiu.Name = "FindArxiu";
+            this.FindArxiu.Size = new System.Drawing.Size(71, 27);
+            this.FindArxiu.TabIndex = 0;
+            this.FindArxiu.Text = ". . .";
+            this.FindArxiu.UseVisualStyleBackColor = true;
+            this.FindArxiu.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // openFileDialog2
             // 
@@ -165,7 +165,7 @@ namespace ABP
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.FindArxiu);
             this.Name = "Form1";
             this.Text = "a";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -175,7 +175,7 @@ namespace ABP
         }
 
         #endregion
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button FindArxiu;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button2;

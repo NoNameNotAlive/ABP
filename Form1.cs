@@ -1,24 +1,17 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
-using System.Collections;
 
 namespace ABP
 {
     public partial class Form1 : Form
     {
-        List<string> llista1 = new List<string>();
-        List<string> llista2 = new List<string>();
-        List<string> llista3 = new List<string>();
-        List<string> llista4 = new List<string>();
-        List<string> llista5 = new List<string>();
+        List<string> llistaChild = new List<string>();
+        List<string> llistaNameHost = new List<string>();
+        List<string> llistaNameRefugee = new List<string>();
+        List<string> llistaFoodDesc = new List<string>();
+        List<string> llistaDeliveryNote = new List<string>();
         public Form1()
         {
             InitializeComponent();
@@ -35,13 +28,11 @@ namespace ABP
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(openFileDialog2.CheckFileExists)
-            {
-                comboBox1.Items.Clear();
-                comboBox2.Items.Clear();
-                ReadChilds();
 
-            }
+            comboBox1.Items.Clear();
+            comboBox2.Items.Clear();
+
+            ReadChilds();
         }
 
         private string CloseChild(string linea)
@@ -80,11 +71,11 @@ namespace ABP
                         linea = sr.ReadLine();
 
                     }
-                    if (llista1.IndexOf(closelinea) == -1)
+                    if (llistaChild.IndexOf(closelinea) == -1)
                     {
-                        llista1.Add(closelinea);
+                        llistaChild.Add(closelinea);
                     }
-                    
+
 
                     linea = sr.ReadLine();
                 }
@@ -93,7 +84,7 @@ namespace ABP
 
             }
 
-            foreach (Object item in llista1)
+            foreach (Object item in llistaChild)
             {
                 comboBox1.Items.Add(item);
             }
@@ -132,7 +123,7 @@ namespace ABP
 
             string linea;
             linea = sr.ReadLine();
-            llista3 = new List<string>();
+            llistaNameRefugee = new List<string>();
             while (linea != null)
             {
                 while (!GetElementName(linea).Equals("Refugees"))
@@ -145,7 +136,7 @@ namespace ABP
                 {
                     if (GetElementName(linea).Equals("FullName"))
                     {
-                        llista3.Add(GetElementData(linea));
+                        llistaNameRefugee.Add(GetElementData(linea));
                         while (!(GetElementName(linea).Equals("/Refugee")) && linea != null)
                         {
                             linea = sr.ReadLine();
@@ -160,7 +151,7 @@ namespace ABP
             }
             sr.Close();
             fs.Close();
-            foreach (Object item in llista3)
+            foreach (Object item in llistaNameRefugee)
             {
                 comboBox2.Items.Add(item);
             }
@@ -172,7 +163,7 @@ namespace ABP
 
             string linea;
             linea = sr.ReadLine();
-            llista2 = new List<string>();
+            llistaNameHost = new List<string>();
             while (linea != null)
             {
                 while (!GetElementName(linea).Equals("Hosts"))
@@ -185,7 +176,7 @@ namespace ABP
                 {
                     if (GetElementName(linea).Equals("FullName"))
                     {
-                        llista2.Add(GetElementData(linea));
+                        llistaNameHost.Add(GetElementData(linea));
                         while (!(GetElementName(linea).Equals("/Host")) && linea != null)
                         {
                             linea = sr.ReadLine();
@@ -196,13 +187,13 @@ namespace ABP
                 }
 
 
-                
+
                 linea = null;
-               
+
             }
             sr.Close();
             fs.Close();
-            foreach (Object item in llista2)
+            foreach (Object item in llistaNameHost)
             {
                 comboBox2.Items.Add(item);
             }
@@ -215,7 +206,7 @@ namespace ABP
 
             string linea;
             linea = sr.ReadLine();
-            llista4 = new List<string>();
+            llistaFoodDesc = new List<string>();
             while (linea != null)
             {
                 while (!GetElementName(linea).Equals("Foods"))
@@ -228,7 +219,7 @@ namespace ABP
                 {
                     if (GetElementName(linea).Equals("DescFood"))
                     {
-                        llista4.Add(GetElementData(linea));
+                        llistaFoodDesc.Add(GetElementData(linea));
 
                     }
                     linea = sr.ReadLine();
@@ -241,7 +232,7 @@ namespace ABP
             }
             sr.Close();
             fs.Close();
-            foreach (Object item in llista4)
+            foreach (Object item in llistaFoodDesc)
             {
                 comboBox2.Items.Add(item);
             }
@@ -255,7 +246,7 @@ namespace ABP
 
             string linea;
             linea = sr.ReadLine();
-            llista5 = new List<string>();
+            llistaDeliveryNote = new List<string>();
             while (linea != null)
             {
                 while (!GetElementName(linea).Equals("FoodsDelivered"))
@@ -268,7 +259,7 @@ namespace ABP
                 {
                     if (GetElementName(linea).Equals("DeliveryNote"))
                     {
-                        llista5.Add(GetElementData(linea));
+                        llistaDeliveryNote.Add(GetElementData(linea));
 
                     }
                     linea = sr.ReadLine();
@@ -281,7 +272,7 @@ namespace ABP
             }
             sr.Close();
             fs.Close();
-            foreach (Object item in llista5)
+            foreach (Object item in llistaDeliveryNote)
             {
                 comboBox2.Items.Add(item);
             }
@@ -290,7 +281,7 @@ namespace ABP
         private string GetElementName(string linea)
         {
             string elementname = "";
-            if(linea != null)
+            if (linea != null)
             {
                 string[] split = linea.Split('<', '>');
 
@@ -300,7 +291,7 @@ namespace ABP
         }
         private string GetElementData(string linea)
         {
-            string data= "";
+            string data = "";
             string[] split = linea.Split('<', '>');
 
             data = split[2].Trim();
@@ -313,78 +304,183 @@ namespace ABP
             {
                 MessageBox.Show("Selecione las listas porfavor");
             }
-            //Search();
-            
+            if (comboBox1.SelectedItem.ToString().Equals("Hosts"))
+            {
+
+                SearchHost();
+
+            }
+            if (comboBox1.SelectedItem.ToString().Equals("Foods"))
+            {
+
+                SearchFood();
+
+            }
+
         }
-        private void Search()
+        private void SearchFood()
         {
             FileStream fs = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read);
             StreamReader sr = new StreamReader(textBox1.Text);
 
-            string linea,texto = "";
+            string linea, texto = "";
+            Boolean exists;
+            exists = false;
             linea = sr.ReadLine();
             List<string> text = new List<string>();
 
             while (!GetElementName(linea).Equals("FoodsDelivered"))
             {
 
-               linea = sr.ReadLine();
+                linea = sr.ReadLine();
 
             }
-            while (!GetElementName(linea).Equals("/FoodsDelivered"))
+            while (!GetElementName(linea).Equals("/FoodsDelivered") && linea != null)
             {
 
-                if (comboBox1.SelectedItem.ToString().Equals("Hosts"))
+                if (comboBox1.SelectedItem.ToString().Equals("Foods"))
                 {
-                        while (!GetElementName(linea).Equals("/FoodDelivered") || linea != null)
+                    while (!GetElementName(linea).Equals("/FoodDelivered") && linea != null)
+                    {
+
+
+                        if (GetElementName(linea).Equals("DeliveryNote"))
                         {
 
-                        
-                            if (GetElementName(linea).Equals("DeliveryNote"))
+                            text.Add("DELIVERY NOTE: " + GetElementData(linea));
+
+                        }
+                        if (GetElementName(linea).Equals("DeliveryDate"))
+                        {
+
+                            text.Add("DELIVERY DATE: " + GetElementData(linea));
+
+                        }
+                        if (GetElementName(linea).Equals("TotalPrice"))
+                        {
+
+                            text.Add("TOTAL COST: " + GetElementData(linea));
+
+
+                        }
+                        if (GetElementName(linea).Equals("Items"))
+                        {
+                            while (!CloseChild(linea).Equals("Items") && linea != null)
                             {
-
-                                text.Add("DELIVERY NOTE: " + GetElementData(linea));
-
-                            }
-                            if (GetElementName(linea).Equals("DeliveryDate"))
-                            {
-
-                                text.Add("DELIVERY DATE: " + GetElementData(linea));
-
-                            }
-                            if (GetElementName(linea).Equals("TotalPrice"))
-                            {
-
-                                text.Add("TOTAL COST: " + GetElementData(linea));
-
-                            }
-                            if (GetElementName(linea).Equals("HostFullName"))
-                            {
-                                if (!GetElementData(linea).Equals(comboBox2.SelectedItem.ToString()))
+                                if (GetElementData(linea).Equals(comboBox2.SelectedItem.ToString()))
                                 {
 
-                                    text.Clear();
-                                    while (!GetElementName(linea).Equals("/FoodDelivered") || linea != null)
+                                    texto = texto + "\n" + "-----------------------------------------------------";
+                                    foreach (Object item in text)
                                     {
-                                        linea = sr.ReadLine();
+                                        texto = texto + "\n" + item;
 
                                     }
+                                    texto = texto + "\n" + "-----------------------------------------------------";
 
                                 }
+                                linea = sr.ReadLine();
                             }
-
-                            linea = sr.ReadLine();
+                            text.Clear();
+                            
+                            
                         }
+
+                        linea = sr.ReadLine();
+
+                    }
 
                 }
 
                 linea = sr.ReadLine();
-                    
-            }
 
-            foreach (Object item in text)
+            }
+            richTextBox1.Text = texto;
+            sr.Close();
+            fs.Close();
+        }
+        private void SearchHost()
+        {
+            FileStream fs = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(textBox1.Text);
+
+            string linea, texto = "";
+            Boolean exists;
+            exists = false;
+            linea = sr.ReadLine();
+            List<string> text = new List<string>();
+
+            while (!GetElementName(linea).Equals("FoodsDelivered"))
             {
-                texto = texto + "\n" + item;
+
+                linea = sr.ReadLine();
+
+            }
+            while (!GetElementName(linea).Equals("/FoodsDelivered") && linea != null)
+            {
+
+                if (comboBox1.SelectedItem.ToString().Equals("Hosts"))
+                {
+                    while (!GetElementName(linea).Equals("/FoodDelivered") && linea != null)
+                    {
+
+
+                        if (GetElementName(linea).Equals("DeliveryNote"))
+                        {
+
+                            text.Add("DELIVERY NOTE: " + GetElementData(linea));
+
+                        }
+                        if (GetElementName(linea).Equals("DeliveryDate"))
+                        {
+
+                            text.Add("DELIVERY DATE: " + GetElementData(linea));
+
+                        }
+                        if (GetElementName(linea).Equals("TotalPrice"))
+                        {
+
+                            text.Add("TOTAL COST: " + GetElementData(linea));
+
+                            if(exists == true)
+                            {
+                                texto = texto + "\n" + "-----------------------------------------------------";
+                                foreach (Object item in text)
+                                {
+                                    texto = texto + "\n" + item;
+
+                                }
+                                texto = texto + "\n" + "-----------------------------------------------------";
+
+                            }
+                            
+
+                        }
+                        if (GetElementName(linea).Equals("HostFullName"))
+                        {
+                            if (GetElementData(linea).Equals(comboBox2.SelectedItem.ToString()))
+                            {
+                                exists = true;
+                            }
+                            else
+                            {
+                                while (!CloseChild(linea).Equals("FoodDelivered") && linea != null)
+                                {
+                                    linea = sr.ReadLine();
+                                    text.Clear();
+                                    
+                                }
+                            }
+                        }
+
+                        linea = sr.ReadLine();
+
+                    }
+
+                }
+
+                linea = sr.ReadLine();
+
             }
             richTextBox1.Text = texto;
             sr.Close();
