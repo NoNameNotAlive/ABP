@@ -280,7 +280,7 @@ namespace ABP
         }
         private string GetElementName(string linea)
         {
-            string elementname = "";
+             string elementname = "";
             if (linea != null)
             {
                 string[] split = linea.Split('<', '>');
@@ -292,9 +292,12 @@ namespace ABP
         private string GetElementData(string linea)
         {
             string data = "";
-            string[] split = linea.Split('<', '>');
-
-            data = split[2].Trim();
+            if (linea != null)
+            {
+                string[] split = linea.Split('<', '>');
+                data = split[2].Trim();
+            }
+            
             return data;
         }
 
@@ -304,19 +307,34 @@ namespace ABP
             {
                 MessageBox.Show("Selecione las listas porfavor");
             }
-            if (comboBox1.SelectedItem.ToString().Equals("Hosts"))
+            else
             {
+                if (comboBox1.SelectedItem.ToString().Equals("Hosts"))
+                {
 
-                richTextBox1.Text =  SearchHost();
+                    richTextBox1.Text = SearchHost();
 
+                }
+                if (comboBox1.SelectedItem.ToString().Equals("Foods"))
+                {
+
+                    richTextBox1.Text = SearchFood();
+
+                }
+                if (comboBox1.SelectedItem.ToString().Equals("FoodsDelivered"))
+                {
+
+                    richTextBox1.Text = SearchFoodsDelivered();
+
+                }
+                if (comboBox1.SelectedItem.ToString().Equals("Refugees"))
+                {
+
+                    richTextBox1.Text = SearchHostRefugee();
+
+                }
             }
-            if (comboBox1.SelectedItem.ToString().Equals("Foods"))
-            {
-
-                richTextBox1.Text = SearchFood();
-
-            }
-
+            
         }
         private string SearchFoodsDelivered()
         {
@@ -536,6 +554,108 @@ namespace ABP
 
             sr.Close();
         }
+        private string SearchHostRefugee()
+        {
+            StreamReader sr = new StreamReader(textBox1.Text);
+
+            string linea, texto = "", Hostrefugee = "";
+            Boolean exists,existsrefugee;
+            exists = false;
+            existsrefugee = false;
+            linea = sr.ReadLine();
+            List<string> text = new List<string>();
+
+            while (!GetElementName(linea).Equals("Hosts"))
+            {
+
+                linea = sr.ReadLine();
+
+            }
+            while (!CloseChild(linea).Equals("Hosts") || existsrefugee == false)
+            {
+                if(existsrefugee == false)
+                {
+                    Hostrefugee = null;
+                }
+                while (!CloseChild(linea).Equals("Host"))
+                {
+                    if (GetElementName(linea).Equals("FullName") && (Hostrefugee == null))
+                    {
+                        Hostrefugee = GetElementData(linea);
+                    }
+                    linea = sr.ReadLine();
+                    if (GetElementData(linea).Equals(comboBox2.SelectedItem.ToString()))
+                    {
+                        existsrefugee = true;
+                    }
+                }
+                linea = sr.ReadLine();
+            }
+
+            while (!GetElementName(linea).Equals("FoodsDelivered"))
+            {
+
+                linea = sr.ReadLine();
+
+            }
+            while (!GetElementName(linea).Equals("/FoodsDelivered") && linea != null)
+            {
+
+                if (GetElementName(linea).Equals("DeliveryNote"))
+                {
+
+                    text.Add("DELIVERY NOTE: " + GetElementData(linea));
+
+                }
+                if (GetElementName(linea).Equals("DeliveryDate"))
+                {
+
+                    text.Add("DELIVERY DATE: " + GetElementData(linea));
+
+                }
+                if (GetElementName(linea).Equals("TotalPrice"))
+                {
+
+                    text.Add("TOTAL COST: " + GetElementData(linea));
+
+                    if (exists == true)
+                    {
+                        texto = texto + "\n" + "-----------------------------------------------------";
+                        foreach (Object item in text)
+                        {
+                            texto = texto + "\n" + item;
+
+                        }
+                        texto = texto + "\n" + "-----------------------------------------------------";
+
+                    }
+
+
+                }
+                if (GetElementName(linea).Equals("HostFullName"))
+                {
+                    if (GetElementData(linea).Equals(Hostrefugee))
+                    {
+                        exists = true;
+                    }
+                    else
+                    {
+                        while (!CloseChild(linea).Equals("FoodDelivered") && linea != null)
+                        {
+                            linea = sr.ReadLine();
+                            text.Clear();
+
+                        }
+                    }
+                }
+
+                linea = sr.ReadLine();
+
+            }
+            return texto;
+
+            sr.Close();
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -545,7 +665,7 @@ namespace ABP
         private void button4_Click(object sender, EventArgs e)
         {
             string rutaCompleta = @"D:\S1AM\TREBALL ABF\ABP\dades.txt";
-            using (StreamWriter sw = new StreamWriter(rutaCompleta))
+            using (StreamWriter sw = File.AppendText(rutaCompleta))
             {
 
                 if (comboBox1.SelectedItem.ToString().Equals("Hosts"))
