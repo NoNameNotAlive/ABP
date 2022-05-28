@@ -149,6 +149,7 @@ namespace ABP
                 linea = null;
 
             }
+            llistaNameRefugee.Sort();
             sr.Close();
             fs.Close();
             foreach (Object item in llistaNameRefugee)
@@ -191,6 +192,7 @@ namespace ABP
                 linea = null;
 
             }
+            llistaNameHost.Sort();
             sr.Close();
             fs.Close();
             foreach (Object item in llistaNameHost)
@@ -305,7 +307,7 @@ namespace ABP
         {
             if (comboBox1.SelectedItem == null || comboBox2.SelectedItem == null)
             {
-                MessageBox.Show("Selecione las listas porfavor");
+                MessageBox.Show("Seleccione las listas, porfavor");
             }
             else
             {
@@ -408,7 +410,6 @@ namespace ABP
 
             return texto;
 
-            sr.Close();
         }
         private string SearchFood()
         {
@@ -478,7 +479,6 @@ namespace ABP
             
             return texto;
             
-            sr.Close();
         }
         private string SearchHost()
         {
@@ -552,7 +552,6 @@ namespace ABP
             }
             return texto;
 
-            sr.Close();
         }
         private string SearchHostRefugee()
         {
@@ -571,13 +570,13 @@ namespace ABP
                 linea = sr.ReadLine();
 
             }
-            while (!CloseChild(linea).Equals("Hosts") || existsrefugee == false)
+            while ((!CloseChild(linea).Equals("Hosts") || existsrefugee == false) && linea != null)
             {
                 if(existsrefugee == false)
                 {
                     Hostrefugee = null;
                 }
-                while (!CloseChild(linea).Equals("Host"))
+                while (!CloseChild(linea).Equals("Host") && linea != null)
                 {
                     if (GetElementName(linea).Equals("FullName") && (Hostrefugee == null))
                     {
@@ -592,7 +591,7 @@ namespace ABP
                 linea = sr.ReadLine();
             }
 
-            while (!GetElementName(linea).Equals("FoodsDelivered"))
+            while (!GetElementName(linea).Equals("FoodsDelivered") && linea != null)
             {
 
                 linea = sr.ReadLine();
@@ -654,7 +653,6 @@ namespace ABP
             }
             return texto;
 
-            sr.Close();
         }
 
         private void Form1_Load(object sender, EventArgs e)
