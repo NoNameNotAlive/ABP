@@ -654,10 +654,13 @@ namespace ABP
             return texto;
 
         }
+        private void Form1_Load(object sender, EventArgs e)
+        { 
+        }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string rutaCompleta = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+            string rutaCompleta = @"D:\S1AM\TREBALL ABF\ABP\dades.txt";
             using (StreamWriter sw = File.AppendText(rutaCompleta))
             {
 
